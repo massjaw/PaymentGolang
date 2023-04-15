@@ -10,7 +10,7 @@ import (
 
 type UserRepo interface {
 	CreateUser(newUser *entity.User, confirmPass string) (entity.User, error)
-	Login(username string, password string) (string, error)
+	UserLogin(username string, password string) (string, error)
 }
 
 type userRepo struct {
@@ -32,7 +32,7 @@ func (r *userRepo) CreateUser(newUser *entity.User, confirmPass string) (entity.
 	return *newUser, nil
 }
 
-func (r *userRepo) Login(username string, password string) (string, error) {
+func (r *userRepo) UserLogin(username string, password string) (string, error) {
 	query := "SELECT id, user_username,  user_email, user_password FROM users WHERE username = $1"
 
 	u := entity.UserLogin{}
@@ -56,7 +56,7 @@ func (r *userRepo) Login(username string, password string) (string, error) {
 	return token, nil
 }
 
-func NewMemberRepository(db *sql.DB) UserRepo {
+func NewUserRepository(db *sql.DB) UserRepo {
 	repo := new(userRepo)
 	repo.db = db
 	return repo

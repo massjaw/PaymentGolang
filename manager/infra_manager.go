@@ -8,16 +8,16 @@ import (
 	"Merchant-Bank/config"
 )
 
-type InfraManager interface {
+type manager interface {
 	DbConn() *sql.DB
 }
 
-type infraManager struct {
+type InfraManager struct {
 	db  *sql.DB
 	cfg config.AppConfig
 }
 
-func (i *infraManager) initDb() {
+func (i *InfraManager) dbInit() {
 	dataSourceName := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s", i.cfg.Host, i.cfg.Port, i.cfg.User, i.cfg.Password, i.cfg.Name, i.cfg.SslMode)
 	db, err := sql.Open("postgres", dataSourceName)
 	if err != nil {
@@ -34,14 +34,14 @@ func (i *infraManager) initDb() {
 	fmt.Println("DB Connected")
 }
 
-func (i *infraManager) DbConn() *sql.DB {
+func (i *InfraManager) DbConn() *sql.DB {
 	return i.db
 }
 
-func NewInfraManager(cfg config.AppConfig) InfraManager {
-	infra := infraManager{
+func NewInfraManager(cfg config.AppConfig) manager {
+	infra := InfraManager{
 		cfg: cfg,
 	}
-	infra.initDb()
+	infra.dbInit()
 	return &infra
 }
