@@ -29,11 +29,19 @@ func (r *userRepo) CreateUser(newUser *req.UserRegist) (entity.User, error) {
 		log.Println(err)
 		return entity.User{}, err
 	}
+
+	query = "INSERT INTO users_wallet (user_id) VALUES($1)"
+	_, err = r.db.Exec(query, userId)
+	if err != nil {
+		log.Println(err)
+		return entity.User{}, err
+	}
+
 	user.Id = userId
 	user.Username = newUser.Username
 	user.Email = newUser.Email
 	user.Password = ""
-	return *&user, nil
+	return user, nil
 }
 
 func (r *userRepo) UserLogin(userInfo *req.UserLogin) (string, error) {
