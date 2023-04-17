@@ -1,25 +1,26 @@
 package usecase
 
 import (
+	"Merchant-Bank/model/dto/req"
 	"Merchant-Bank/model/entity"
 	"Merchant-Bank/repository"
 )
 
 type UserUsecase interface {
-	Register(newUser *entity.User, confirmPass string) (entity.User, error)
-	Login(username string, password string) (string, error)
+	Register(newUser *req.UserRegist) (entity.User, error)
+	Login(userInfo *req.UserLogin) (string, error)
 }
 
 type userUsecase struct {
 	userRepo repository.UserRepo
 }
 
-func (u *userUsecase) Register(newUser *entity.User, confirmPass string) (entity.User, error) {
-	return u.userRepo.CreateUser(newUser, confirmPass)
+func (u *userUsecase) Register(newUser *req.UserRegist) (entity.User, error) {
+	return u.userRepo.CreateUser(newUser)
 }
 
-func (u *userUsecase) Login(username string, password string) (string, error) {
-	return u.userRepo.UserLogin(username, password)
+func (u *userUsecase) Login(userInfo *req.UserLogin) (string, error) {
+	return u.userRepo.UserLogin(userInfo)
 }
 
 func NewUserUsecase(userRepo repository.UserRepo) UserUsecase {
