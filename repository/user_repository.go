@@ -37,7 +37,7 @@ func (r *userRepo) CreateUser(newUser *req.UserRegist) (entity.User, error) {
 }
 
 func (r *userRepo) UserLogin(userInfo *req.UserLogin) (string, error) {
-	query := "SELECT id, user_username,  user_email, user_password FROM users WHERE username = $1"
+	query := "SELECT id, user_username,  user_email, user_password FROM users WHERE user_username = $1"
 
 	u := entity.User{}
 
