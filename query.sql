@@ -14,13 +14,32 @@ CREATE TABLE users_wallet (
 			REFERENCES users(id)
 );
 
-CREATE TABLE transaction_log (
+CREATE TABLE payment_log (
 		id serial primary key,
+		sender_id int not null,
+		receipt_id int not null,
+		amount double precision,
+		date_time date not null default current_date,
+		CONSTRAINT sender_log 
+			FOREIGN KEY(sender_id)
+			REFERENCES users(id),
+		CONSTRAINT receipt_log 
+				FOREIGN KEY(receipt_id)
+				REFERENCES users(id)
+);
+
+CREATE TABLE payment_log_detail (
+		id serial primary key,
+		payment_id int not null,
 		user_id int not null,
 		amount double precision,
 		date_time date not null default current_date,
 		CONSTRAINT trx_log 
 			FOREIGN KEY(user_id)
-			REFERENCES users(id)
+			REFERENCES users(id),
+		CONSTRAINT payment_detail
+				FOREIGN KEY(payment_id)
+				REFERENCES payment_log(id)
 );
+
 
