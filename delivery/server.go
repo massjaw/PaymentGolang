@@ -23,6 +23,8 @@ func (a *AppServer) v1() {
 
 func (a *AppServer) UserController(rg *gin.RouterGroup) {
 	controller.NewUserController(rg, a.usecaseManager.UserUsecase())
+	controller.NewPaymentController(rg, a.usecaseManager.PaymentUsecase())
+	controller.NewWalletController(rg, a.usecaseManager.WalletUsecase())
 }
 
 func (a *AppServer) Run() {
